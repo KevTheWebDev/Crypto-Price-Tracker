@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crypto Market Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>📊 Crypto Market Tracker</h1>
+    <div class="controls">
+      <input type="text" id="search" placeholder="Search coins..." />
+      <select id="sort" style="display:none"></select> <!-- HIDDEN OLD SORT -->
+      <label>
+        <input type="checkbox" id="show-favorites" />
+        Show Favorites Only
+      </label>
+      <select id="currency-select">
+        <option value="usd">$ USD</option>
+        <option value="eur">€ EUR</option>
+        <option value="gbp">£ GBP</option>
+        <option value="btc">₿ BTC</option>
+        <option value="eth">Ξ ETH</option>
+      </select>
+      <button id="refresh">🔄 Refresh</button>
+      <button id="dark-mode">☀️ Light Mode</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th data-column="rank"># <span class="sort-icon"></span></th>
+            <th data-column="name">Coin <span class="sort-icon"></span></th>
+            <th data-column="price">Price <span class="sort-icon"></span></th>
+            <th data-column="change">24h % <span class="sort-icon"></span></th>
+            <th data-column="volume">Volume <span class="sort-icon"></span></th>
+            <th data-column="market_cap">Market Cap <span class="sort-icon"></span></th>
+            <th>7d Trend ⭐</th>
+          </tr>
+        </thead>
+        <tbody id="crypto-table">
+          <!-- Data will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    <p>Powered by CoinGecko API</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
