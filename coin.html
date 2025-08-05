@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coin Details</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    header {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 1rem;
+    }
+
+    #price-chart {
+      max-width: 100%;
+      height: 400px;
+    }
+
+    @media (max-width: 768px) {
+      #price-chart {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="coin-title">Loading...</h1>
+    <button onclick="history.back()">← Back</button>
+  </header>
+
+  <main>
+    <canvas id="price-chart"></canvas>
+  </main>
+
+  <footer>
+    <p>Powered by CoinGecko API</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const coinId = params.get('id');
+    const currency = localStorage.getItem("currency") || "usd";
+    const chartEl = document.getElementById('price-chart').getContext('2d');
+    const titleEl = document.getElementById('coin-title');
+
+    async function fetchCoinData() {
+      try {
+        const [infoRes, chartRes] = await Promise.all([
+          fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`),
+          fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency}&days=7`)
+        ]);
+
+        const info = await infoRes.json();
+        const chart = await chartRes.json();
+
+        titleEl.innerHTML = `${info.name} (${info.symbol.toUpperCase()}) – Last 7 Days`;
+
+        const labels = chart.prices.map(p => new Date(p[0]).toLocaleString());
+        const prices = chart.prices.map(p => p[1]);
+
+        new Chart(chartEl, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [{
+              label: `Price (${currency.toUpperCase()})`,
+              data: prices,
+              borderColor: 'lightgreen',
+              backgroundColor: 'rgba(0,255,0,0.05)',
+              tension: 0.3,
+              fill: true,
+              pointRadius: 0,
+              pointHoverRadius: 4,
+            }]
+          },
+          options: {
+            responsive: true,
+            interaction: {
+              mode: 'index',
+              intersect: false
+            },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(ctx) {
+                    return `Price: ${ctx.parsed.y.toLocaleString(undefined, {
+                      style: 'currency',
+                      currency: currency.toUpperCase()
+                    })}`;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10
+                }
+              },
+              y: {
+                ticks: {
+                  callback: function(value) {
+                    return value.toLocaleString(undefined, {
+                      style: 'currency',
+                      currency: currency.toUpperCase()
+                    });
+                  }
+                }
+              }
+            }
+          }
+        });
+
+      } catch (err) {
+        titleEl.textContent = "Error loading coin data";
+        console.error(err);
+      }
+    }
+
+    fetchCoinData();
+  </script>
+</body>
+</html>
