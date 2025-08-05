@@ -19,9 +19,3 @@ This is a web-based cryptocurrency tracker built with real-time data using the C
 
 ### 📈 Bitcoin 7-Day Chart
 ![Bitcoin Chart](https://github.com/KevTheWebDev/Crypto-Price-Tracker/blob/main/screenshots/bitcoin_chart.png)
-
----
-
-## 🚀 Getting Started
-
-Instructions for running locally...
