@@ -15,10 +15,10 @@ This is a web-based cryptocurrency tracker built with real-time data using the C
 ## 🖼️ Website Screenshots
 
 ### 📈 Bitcoin 7-Day Chart
-![Bitcoin Chart](screenshots/bitcoin_chart.png)
+![Bitcoin Chart](https://github.com/KevTheWebDev/Crypto-Price-Tracker/blob/main/screenshots/bitcoin_chart.png)
 
 ### 📊 Crypto Market Overview Page
-![Crypto Tracker](screenshots/crypto_market_tracker.png)
+![Crypto Tracker](https://github.com/KevTheWebDev/Crypto-Price-Tracker/blob/main/screenshots/crypto_market_tracker.png)
 
 ---
 
